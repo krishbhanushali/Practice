@@ -1,11 +1,16 @@
 package ArtificialIntelligence;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
 public class BotCleanPartiallyObservable {
+	static boolean wentRight = false;
+	static boolean wentLeft = false;
 	static void next_move(int posY, int posX, String[] board){
         //add logic here
+		
 		char[][] grid = new char[board.length][board.length];
 		for(int i = 0 ; i < board.length;i++){
 			String s = board[i];
@@ -13,59 +18,21 @@ public class BotCleanPartiallyObservable {
 				grid[j][i] = s.charAt(j);
 			}
 		}
-		System.out.println(grid.length);
+		System.err.println(wentRight);
 		if(grid[posX][posY]=='d')
 			System.out.println("CLEAN");
+		else if((posY%grid.length)%2==0 && posX<grid.length-1)
+			System.out.println("RIGHT");
+		else if((posY%grid.length)%2==0 && posX==grid.length-1)
+			System.out.println("DOWN");
+		else if((posY%grid.length)%2==1 && posX>0 )
+			System.out.println("LEFT");
+		else if((posY%grid.length)%2==1 && posX==0)
+			System.out.println("DOWN");
 		//check north
-		else if(posY-1>=0 && grid[posX][posY-1]=='d') System.out.println("UP");
-		//check northEast
-		else if(posY-1>=0 && posX+1<=grid.length-1 && grid[posX+1][posY-1]=='d') System.out.println("UP");
-		//check east
-		else if(posX+1<=grid.length-1 && posY-1>=0 && grid[posX+1][posY-1]=='d') System.out.println("RIGHT");
-		//check southeast
-		else if(posY+1<=grid.length-1 && posX+1<=grid.length-1 && grid[posX+1][posY+1]=='d') System.out.println("RIGHT");
-		//check south
-		else if(posY+1<=grid.length-1 && grid[posX][posY+1]=='d') System.out.println("DOWN");
-		//check southWest
-		else if(posY+1<=grid.length-1 && posX-1>=0 && grid[posX-1][posY+1]=='d') System.out.println("DOWN");
-		//check west
-		else if(posX-1>=0 && grid[posX-1][posY]=='d') System.out.println("LEFT");
-		//check northwest
-		else if(posY-1>=0 && posX-1>=0 && grid[posX-1][posY-1]=='d') System.out.println("LEFT");
-		else{
-			String[] openPositions = getOpenPositions(grid,posX,posY);
-			int count = 0;
-			for(String str:openPositions){
-				if(str!=null) count++;
-			}
-			Random rand = new Random();
-			int n = rand.nextInt(count);
-			System.out.println(openPositions[n]);
-		}
+		
 		
     }
-	private static String[] getOpenPositions(char[][] grid, int posX, int posY) {
-		// TODO Auto-generated method stub
-		String[] openPositions = new String[4];
-		int i = 0;
-		if(posY-1>=0 && grid[posX][posY-1]=='-'){
-			openPositions[i] = "UP";
-			i++;
-		}
-		if(posX+1<=grid.length-1 && grid[posX+1][posY]=='-'){
-			openPositions[i] = "RIGHT";
-			i++;
-		}
-		if(posY+1<=grid.length-1 && grid[posX][posY+1]=='-'){
-			openPositions[i] = "DOWN";
-			i++;
-		}
-		if(posX-1>=0 && grid[posX-1][posY]=='-'){
-			openPositions[i] = "LEFT";
-			i++;
-		}
-		return openPositions;
-	}
 	public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         int [] pos = new int[2];
